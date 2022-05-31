@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Random;
-import java.util.HashMap;
+import java.util.*;
 
 class SimpleHTTestA1 {
 
@@ -31,6 +28,10 @@ class SimpleHTTestA1 {
             simpleHT.insert(a, b);
             keys.add(a);
         }
+
+        Set keySet = new HashSet(keys);
+        System.out.println(keySet.size() + "  " + keys.size());
+
         
         // Dann werden einige Paare neu zugewiesen        
         for (Integer key : keys)
@@ -53,12 +54,12 @@ class SimpleHTTestA1 {
         }
         
         // Hier testen wir, ob alle gewollten Paare noch da sind
-        for (var pair : javaHM.entrySet()) {
-            if (!pair.getValue().equals(simpleHT.get(pair.getKey()))) {
+        for (Map.Entry pair : javaHM.entrySet()) {
+            if (!pair.getValue().equals(simpleHT.get((Integer) pair.getKey()))) {
                 System.err.println("Table should contain pair (" + 
                     pair.getKey() + ", " + pair.getValue() + ")!");
                 System.err.println("Instead, it contains (" + 
-                    pair.getKey() + ", " + simpleHT.get(pair.getKey()) + ")!");
+                    pair.getKey() + ", " + simpleHT.get((Integer) pair.getKey()) + ")!");
                 System.exit(-1);
             }
         }

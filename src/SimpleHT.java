@@ -1,6 +1,10 @@
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 public class SimpleHT {
 
-    private Pair[] hashTable;
+    private ArrayList<ArrayList<Pair>> hashTable;
+    private int size;
 
     public class Pair{
         private Integer key;
@@ -20,19 +24,46 @@ public class SimpleHT {
     }
 
     public SimpleHT(int size){
-        hashTable = new Pair[size];
+        this.size = size;
+        hashTable = new ArrayList<ArrayList<Pair>>(size);
+        for( int i = 0; i < size; i++){
+            hashTable.add(new ArrayList<Pair>());
+        }
     }
 
 
     public void insert(Integer key, Integer value){
+        //key berechnen
+        Integer keyIndex = Math.floorMod(key,size);
+        Pair pair = new Pair(key, value);
 
+        //pruffen ob es schon ein object ins hashtable gibt
+        if(hashTable.get(keyIndex).size() > 0){
+            for (Pair p: hashTable.get(keyIndex)) {
+                if(p.getKey().equals(key)){
+                    return;
+                }
+            }
+        }
+        // object zum table addieren
+        hashTable.get(keyIndex).add(pair);
     }
 
     public Integer get(Integer key){
-        return 1;
+        for(Pair pair: hashTable.get(Math.floorMod(key, size))){
+            if(pair.getKey().equals(key)){
+                return pair.getValue();
+            }
+        }
+        return null;
     }
 
     public boolean remove(Integer key){
-        return true;
+        for(Pair pair: hashTable.get(Math.floorMod(key, size))){
+            if(pair.getKey().equals(key)){
+                return hashTable.get(Math.floorMod(key, size)).remove(pair);
+            }
+        }
+        return false;
     }
 }
