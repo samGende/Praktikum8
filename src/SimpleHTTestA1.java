@@ -29,8 +29,6 @@ class SimpleHTTestA1 {
             keys.add(a);
         }
 
-        Set keySet = new HashSet(keys);
-        System.out.println(keySet.size() + "  " + keys.size());
 
         
         // Dann werden einige Paare neu zugewiesen        

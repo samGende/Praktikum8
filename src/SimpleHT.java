@@ -39,11 +39,7 @@ public class SimpleHT {
 
         //pruffen ob es schon ein object ins hashtable gibt
         if(hashTable.get(keyIndex).size() > 0){
-            for (Pair p: hashTable.get(keyIndex)) {
-                if(p.getKey().equals(key)){
-                    return;
-                }
-            }
+            hashTable.get(keyIndex).removeIf(p -> p.getKey().equals(key));
         }
         // object zum table addieren
         hashTable.get(keyIndex).add(pair);
