@@ -28,6 +28,7 @@ public class SimpleHT<K, V> {
         this.size = size;
         this.hashFunktion = hashFunktion;
         hashTable = new ArrayList<ArrayList<Pair>>(size);
+        //hashtable mit leere arraylist initialzieren
         for( int i = 0; i < size; i++){
             hashTable.add(new ArrayList<Pair>());
         }
@@ -42,11 +43,12 @@ public class SimpleHT<K, V> {
 
     public void insert(K key, V value){
         //key berechnen
-        Integer keyIndex = Math.floorMod(hashFunktion.getHash(key),size);
+        Integer keyIndex = addressOfList(key);
         Pair pair = new Pair(key, value);
 
         //pruffen ob es schon ein object ins hashtable gibt
         if(hashTable.get(keyIndex).size() > 0){
+            //objecte mit gleiche key raus nehmen
             hashTable.get(keyIndex).removeIf(p -> p.getKey().equals(key));
         }
         // object zum table addieren
@@ -54,7 +56,8 @@ public class SimpleHT<K, V> {
     }
 
     public V get(K key){
-        for(Pair pair: hashTable.get(Math.floorMod(hashFunktion.getHash(key), size))){
+        //in die richtige liste key finden
+        for(Pair pair: hashTable.get(addressOfList(key))){
             if(pair.getKey().equals(key)){
                 return (V) pair.getValue();
             }
@@ -63,11 +66,17 @@ public class SimpleHT<K, V> {
     }
 
     public boolean remove(K key){
-        for(Pair pair: hashTable.get(Math.floorMod(hashFunktion.getHash(key), size))){
+        // in die richtige liste key finden
+        for(Pair pair: hashTable.get(addressOfList(key))){
             if(pair.getKey().equals(key)){
-                return hashTable.get(Math.floorMod(hashFunktion.getHash(key), size)).remove(pair);
+                return hashTable.get(addressOfList(key)).remove(pair);
             }
         }
         return false;
+    }
+
+    private int addressOfList(K key){
+        return Math.floorMod(hashFunktion.getHash(key), size);
+
     }
 }
